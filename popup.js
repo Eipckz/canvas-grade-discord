@@ -1,8 +1,9 @@
+import {api} from './api.js';
 const $ = id => document.getElementById(id);
 import {estimatedGPA, spreadsheetTSV} from './core.js';
 async function refresh() {
-  const s = await chrome.storage.local.get(['settings','status','error','lastGrades','lastProfile','checkedAt','sentAt']);
-  $('status').textContent = s.error || s.status || 'UTC Canvas is connected. Friday-to-Sunday weekly delivery is enabled. Sign in to Canvas, then use Send now anytime.';
+  const s = await api.storage.local.get(['settings','status','error','lastGrades','lastProfile','checkedAt','sentAt']);
+  $('status').textContent = s.error || s.status || 'UTC Canvas is connected. Daily delivery is enabled at 6 PM Eastern. Sign in to Canvas, then use Send now anytime.';
   $('grades').replaceChildren();
   $('name').textContent = s.lastProfile ? `Name: ${s.lastProfile.name} (last checked account)` : '';
   for (const row of s.lastGrades || []) {
@@ -12,19 +13,19 @@ async function refresh() {
   }
   $('time').textContent = [s.checkedAt ? `Checked: ${new Date(s.checkedAt).toLocaleString()}` : '', s.sentAt ? `Sent: ${new Date(s.sentAt).toLocaleString()}` : ''].filter(Boolean).join(' | ');
 }
-$('settings').onclick = () => chrome.runtime.openOptionsPage();
+$('settings').onclick = () => api.runtime.openOptionsPage();
 $('send').onclick = async () => {
   $('send').disabled = true; $('status').textContent = 'Reading Canvas and sending…';
-  try { const r = await chrome.runtime.sendMessage({type:'send'}); await refresh(); if (!r.ok) $('status').textContent = r.error; }
+  try { const r = await api.runtime.sendMessage({type:'send'}); await refresh(); if (!r.ok) $('status').textContent = r.error; }
   catch { $('status').textContent = 'Check again shortly for delivery status.'; }
   finally { $('send').disabled = false; }
 };
-chrome.storage.onChanged.addListener(refresh);
+api.storage.onChanged.addListener(refresh);
 await refresh();
 
 $('copy').onclick = async () => {
   try {
-    const {lastGrades, lastProfile} = await chrome.storage.local.get(['lastGrades','lastProfile']);
+    const {lastGrades, lastProfile} = await api.storage.local.get(['lastGrades','lastProfile']);
     if (!lastProfile || !lastGrades?.length) throw new Error('Send a grade check first.');
     await navigator.clipboard.writeText(spreadsheetTSV(lastGrades,lastProfile));
     $('status').textContent = 'Copied. Paste into cell A1 of your spreadsheet.';

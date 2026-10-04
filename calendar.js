@@ -3,7 +3,7 @@ export function easternParts(date = new Date()) {
   return Object.fromEntries(new Intl.DateTimeFormat('en-US', {timeZone:TIME_ZONE,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',hourCycle:'h23',minute:'2-digit'}).formatToParts(date).map(p=>[p.type,p.value]));
 }
 export function isReportingDay(date = new Date()) {
-  return ['Fri','Sat','Sun'].includes(easternParts(date).weekday);
+  return true;
 }
 export function localDate(date = new Date()) {
   const p=easternParts(date);return `${p.year}-${p.month}-${p.day}`;
@@ -18,7 +18,7 @@ export function nextCheck(now = new Date()) {
   for(let i=1;i<=8*24;i++) {
     const time=start+i*3600000;
     const p=easternParts(new Date(time));
-    if(['Fri','Sat','Sun'].includes(p.weekday) && p.hour==='18') return time;
+    if(p.hour==='18') return time;
   }
   throw new Error('Could not determine next reporting day.');
 }

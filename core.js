@@ -54,11 +54,11 @@ export function spreadsheetRows(grades, profile) {
 export function spreadsheetTSV(grades, profile) {
   return spreadsheetRows(grades, profile).map(row => row.join('\t')).join('\n');
 }
-export function messagesFor(grades, profile, week = '') {
+export function messagesFor(grades, profile, week = '', recent = [], warnings = []) {
   const name = String(profile.name).replace(/[\r\n\t]/g, ' ').slice(0,150).replace(/[\\`*_~|<>]/g, '\\$&');
-  const heading = `**Name: ${name}**\n${week ? `Week ending ${week}\n` : ''}`;
+  const heading = `**Name: ${name}**\n${week ? `Daily report ${week}\n` : ''}`;
   const tsv = spreadsheetTSV(grades, profile);
-  const intro = 'Import grades.tsv into your spreadsheet, or use Copy for spreadsheet in the extension. GPA is an estimate.\n';
+  const intro = `Import grades.tsv into your spreadsheet. GPA is an estimate.\nRecently graded or updated: ${recent.length}. Full details in recently-graded.tsv and report.json.${warnings.length ? ` Assignment collection incomplete for ${warnings.length} course(s); see report.json.` : ''}\n`;
   const content = heading + intro + '```\n' + tsv + '\n```';
   const allowed_mentions = {parse: []};
   if (content.length <= 2000) return [{content, allowed_mentions, file:{name:'grades.tsv',text:tsv}}];

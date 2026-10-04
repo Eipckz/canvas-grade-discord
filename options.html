@@ -1,9 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Canvas Grades Settings</title><link rel="stylesheet" href="style.css"></head><body><main>
-<div class="eyebrow">CANVAS TO DISCORD</div><h1>Your grades, delivered.</h1><p>UTC Canvas and the shared Discord destination are already connected. This extension uses your signed-in Chrome session and sends class names and current grades to your webhook.</p>
+<div class="eyebrow">CANVAS TO DISCORD</div><h1>Your grades, delivered.</h1><p>UTC Canvas and the shared Discord destination are already connected. This extension uses your signed-in browser session and sends class names, current grades, assignment scores, and grading feedback to your webhook.</p>
 <p>Canvas: <strong>https://utchattanooga.instructure.com/</strong></p>
-<p><strong>Schedule:</strong> One report per week: Friday, then Saturday if missed, then Sunday if still missed. Checks occur when Canvas loads and at 6 PM Eastern on those days. Reports send even when grades have not changed.</p>
+<p><strong>Schedule:</strong> One report daily at 6 PM Eastern, with catch-up when your browser starts or Canvas loads. Reports send even when grades have not changed.</p>
 <p>Reports include the signed-in person's name and grades and go to the preconfigured shared Discord channel. The destination and automatic delivery are locked in this extension's settings.</p>
-<p>Chrome must be running and Canvas signed in. A red badge means the connection or delivery needs attention.</p>
+<p>Your browser must be running and Canvas signed in. A red badge means the connection or delivery needs attention.</p>
 <button id="send" type="button">Send grades now</button><div id="status" role="status"></div>
 <hr><h2>Course details for this account</h2><p id="account">Send a grade check first to identify the account.</p><p>Canvas does not supply credit hours here. Edit the names, course codes, and credits below, then save. These details apply only to the last checked Canvas account. Other accounts keep separate details.</p><textarea id="details" rows="16" aria-label="Course details JSON" spellcheck="false"></textarea><button id="saveDetails" type="button">Save course details</button><div id="detailsStatus" role="status"></div>
 </main><script type="module" src="options.js"></script></body></html>

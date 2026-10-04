@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Grades to Discord",
+  "version": "1.3.0",
+  "description": "Send your current Canvas class grades to your Discord webhook.",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "clipboardWrite",
+    "storage",
+    "alarms",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://discord.com/api/webhooks/*",
+    "https://utchattanooga.instructure.com/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Canvas Grades"
+  },
+  "options_page": "options.html"
+}

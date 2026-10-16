@@ -27,7 +27,8 @@ const tls = {key: readFileSync(join(certDir, 'key.pem')), cert: readFileSync(joi
 const mock = mockServer();
 const servers = [await mock.listen(8443, tls)];
 // Firefox can only redirect hostnames (not ports), so it needs the mock on 443 too.
-try { servers.push(await mock.listen(443, tls)); } catch { console.log('Port 443 unavailable (run with sudo on Linux/mac); Firefox skipped.'); }
+// CG_443_FORWARDED=1 means something (e.g. pf on macOS CI) already forwards 127.0.0.1:443 to 8443.
+const has443 = process.env.CG_443_FORWARDED === '1' || await mock.listen(443, tls).then(s => servers.push(s), () => console.log('Port 443 unavailable (run with sudo on Linux/mac); Firefox skipped.'));
 
 // Both drivers expose the same tiny interface: open, click, text, shot, run, close.
 async function chromium(executablePath, dir) {
@@ -86,7 +87,7 @@ const browsers = [
   ['Edge', chromium, process.env.EDGE ?? (win && 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe')],
   ['Brave', chromium, process.env.BRAVE ?? (win && 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe')],
   ['Chromium', chromium, process.env.CHROMIUM],
-  ['Firefox', gecko, servers.length > 1 && process.env.FIREFOX],
+  ['Firefox', gecko, has443 && process.env.FIREFOX],
 ].filter(([, , path]) => path);
 
 async function waitFor(check, what, ms = 20000) {

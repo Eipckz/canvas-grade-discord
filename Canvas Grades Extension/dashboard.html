@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Canvas Grades Dashboard</title><link rel="stylesheet" href="style.css"></head><body>
+<main class="wrap">
+  <header>
+    <div><p class="muted small">CANVAS GRADES → DISCORD</p><h1 id="who">Canvas Grades</h1></div>
+    <div class="actions"><span id="pill" class="pill">Loading…</span></div>
+  </header>
+  <div id="update" class="banner" hidden></div>
+  <div id="status" class="banner" role="status" hidden></div>
+  <section class="actions">
+    <button id="send" type="button">Send grades now</button>
+    <button id="copy" type="button" class="secondary">Copy for spreadsheet</button>
+    <button id="grant" type="button" class="secondary" hidden>Grant Canvas &amp; Discord access</button>
+  </section>
+  <section class="stats">
+    <div class="panel stat"><span class="muted small">Estimated GPA</span><b id="gpa">–</b></div>
+    <div class="panel stat"><span class="muted small">Classes</span><b id="count">–</b></div>
+    <div class="panel stat"><span class="muted small">Last checked</span><b id="checked" class="small">–</b></div>
+    <div class="panel stat"><span class="muted small">Last sent to Discord</span><b id="sent" class="small">–</b></div>
+  </section>
+  <section class="panel"><h2>Current grades</h2><div id="courses" class="courses"><p class="muted">Open Canvas or click Send grades now to load your grades.</p></div></section>
+  <section class="panel"><h2>Letter grade changes</h2><ul id="changes" class="timeline"><li class="muted">No letter grade changes recorded yet. You'll get a Discord summary whenever a class moves between A, B, C, D, or F.</li></ul></section>
+  <section class="panel">
+    <h2>How sending works</h2>
+    <p class="muted">Grades are sent to Discord each time you open Canvas (at most once every <span id="cooldown"></span> minutes, so clicking around Canvas doesn't spam the channel). If Canvas isn't opened all week, a backup check runs Friday–Sunday at 6 PM Eastern while the browser is open. Letter grade changes are posted as a separate summary message. GPA is an estimate (A–F = 4–0, score fallback 90/80/70/60).</p>
+  </section>
+  <details class="panel"><summary>Course details (names, codes, credit hours)</summary>
+    <p id="account" class="muted small" style="margin:10px 0">Send a grade check first to identify the account.</p>
+    <textarea id="details" rows="14" aria-label="Course details JSON" spellcheck="false"></textarea>
+    <div class="actions" style="margin-top:8px"><button id="saveDetails" type="button">Save course details</button><span id="detailsStatus" role="status" class="muted small"></span></div>
+  </details>
+  <p class="muted small" id="version"></p>
+</main>
+<script type="module" src="dashboard.js"></script></body></html>

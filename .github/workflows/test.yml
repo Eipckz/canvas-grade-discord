@@ -1,0 +1,38 @@
+# Runs every test on Windows, macOS, and Linux in Chrome, Edge, and Firefox (all preinstalled on GitHub runners).
+name: test
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults: {run: {shell: bash, working-directory: tests}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: npm install
+      - run: node core.test.mjs
+      - run: node updater.test.mjs
+      - name: Browser paths
+        run: |
+          if [ "$RUNNER_OS" = Linux ]; then
+            sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0   # mock server needs port 443 for Firefox
+            echo "CHROME=$(command -v google-chrome)" >> $GITHUB_ENV
+            echo "EDGE=$(command -v microsoft-edge || true)" >> $GITHUB_ENV
+            echo "FIREFOX=$(command -v firefox)" >> $GITHUB_ENV
+          elif [ "$RUNNER_OS" = macOS ]; then
+            echo "CHROME=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" >> $GITHUB_ENV
+            [ -e "/Applications/Microsoft Edge.app" ] && echo "EDGE=/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" >> $GITHUB_ENV
+            echo "FIREFOX=/Applications/Firefox.app/Contents/MacOS/firefox" >> $GITHUB_ENV
+          else
+            echo "FIREFOX=C:/Program Files/Mozilla Firefox/firefox.exe" >> $GITHUB_ENV
+            echo "BRAVE=" >> $GITHUB_ENV
+          fi
+      - run: node e2e.mjs
+        env: {CG_SHOTS: "${{ runner.temp }}"}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: "dashboard-${{ matrix.os }}", path: "${{ runner.temp }}/dashboard-*.png"}

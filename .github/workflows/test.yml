@@ -24,6 +24,7 @@ jobs:
             echo "EDGE=$(command -v microsoft-edge || true)" >> $GITHUB_ENV
             echo "FIREFOX=$(command -v firefox)" >> $GITHUB_ENV
           elif [ "$RUNNER_OS" = macOS ]; then
+            sudo sysctl -w net.inet.ip.portrange.reservedhigh=0   # same, BSD-style
             echo "CHROME=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" >> $GITHUB_ENV
             [ -e "/Applications/Microsoft Edge.app" ] && echo "EDGE=/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" >> $GITHUB_ENV
             echo "FIREFOX=/Applications/Firefox.app/Contents/MacOS/firefox" >> $GITHUB_ENV

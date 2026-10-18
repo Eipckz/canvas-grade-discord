@@ -1,7 +1,7 @@
 # Runs every test on Windows, macOS, and Linux in Chrome, Edge, and Firefox (all preinstalled on GitHub runners).
 name: test
 on: [push, workflow_dispatch]
-# A newer push to the same branch cancels the older run, so superseded runs don't upload screenshots too.
+# A newer push to the same branch cancels the older run.
 concurrency: {group: "${{ github.workflow }}-${{ github.ref }}", cancel-in-progress: true}
 jobs:
   test:
@@ -36,9 +36,5 @@ jobs:
             echo "FIREFOX=C:/Program Files/Mozilla Firefox/firefox.exe" >> $GITHUB_ENV
             echo "BRAVE=" >> $GITHUB_ENV
           fi
+      # No artifact upload: results are in the job log, and uploads count against the account's storage quota.
       - run: node e2e.mjs
-        env: {CG_SHOTS: "${{ runner.temp }}"}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        # Screenshots are for checking the dashboard, not a release, so keep them a week (default is 90 days).
-        with: {name: "dashboard-${{ matrix.os }}", path: "${{ runner.temp }}/dashboard-*.png", retention-days: 7}

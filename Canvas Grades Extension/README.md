@@ -1,4 +1,4 @@
-# Canvas Grades to Discord 1.4
+# Canvas Grades to Discord 1.5
 
 This one folder works in every browser: Chrome, Edge, Brave, Opera, Vivaldi, Firefox, and Safari, on Windows, macOS, and Linux.
 
@@ -13,7 +13,7 @@ This one folder works in every browser: Chrome, Edge, Brave, Opera, Vivaldi, Fir
 
 1. Get this folder: copy it from OneDrive, or download the zip from the release message in Discord and extract it.
 2. Run the installer once. It copies the extension to a local folder and checks for updates every hour.
-   - **Windows:** `powershell -ExecutionPolicy Bypass -File update.ps1 -Install`
+   - **Windows:** double-click `Install on Windows.cmd` (or run `powershell -ExecutionPolicy Bypass -File update.ps1 -Install`)
    - **Mac/Linux:** `sh update.sh --install`
 3. Open the browser's extensions page (`chrome://extensions`, `edge://extensions`, `brave://extensions`, …). Turn on **Developer mode**, click **Load unpacked**, and select the folder the installer printed or opened:
    - Windows: `%LOCALAPPDATA%\CanvasGrades\extension`

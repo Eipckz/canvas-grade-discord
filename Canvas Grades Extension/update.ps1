@@ -19,10 +19,16 @@ if ($Install) {
   $action = if ([Environment]::OSVersion.Version.Build -ge 22000) { New-ScheduledTaskAction -Execute 'conhost.exe' -Argument "--headless powershell.exe $ps" } else { New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $ps }
   $triggers = @((New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME), (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1)))
   Register-ScheduledTask -TaskName 'Canvas Grades Updater' -Action $action -Trigger $triggers -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) -Force | Out-Null
-  Write-Host "Installed to $Dir"
-  Write-Host 'In each browser: open the Extensions page, turn on Developer mode, click Load unpacked, and choose that folder.'
+  # The folder is under hidden AppData, so hand people the path to paste into the Load unpacked window.
+  Set-Clipboard $Dir
+  Write-Host ''
+  Write-Host "Installed to $Dir  (this path is now copied)"
+  Write-Host ''
+  Write-Host 'Now in your browser:'
+  Write-Host '  1. Go to the Extensions page (chrome://extensions, edge://extensions, brave://extensions ...)'
+  Write-Host '  2. Turn on Developer mode, then click Load unpacked'
+  Write-Host '  3. Click the address bar of the folder window, press Ctrl+V, press Enter, then click Select Folder'
   Write-Host 'Remove any older copy of the extension that was loaded from a different folder.'
-  explorer.exe $Dir
   exit
 }
 

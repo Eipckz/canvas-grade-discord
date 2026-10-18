@@ -27,8 +27,14 @@ if [ "${1:-}" = --install ]; then
   SRC=$(cd "$(dirname "$0")" && pwd)
   [ "$SRC" = "$DIR" ] || cp -R "$SRC/." "$DIR/"
   (crontab -l 2>/dev/null | grep -v canvas-grades-update || true; echo "17 * * * * /bin/sh \"$DIR/update.sh\" # canvas-grades-update") | crontab -
-  echo "Installed to $DIR"
-  echo "In each browser: open the Extensions page, turn on Developer mode, click Load unpacked, and choose that folder."
+  printf '%s' "$DIR" | pbcopy 2>/dev/null && COPIED=' (this path is now copied)' || COPIED=''
+  echo
+  echo "Installed to $DIR$COPIED"
+  echo
+  echo "Now in your browser:"
+  echo "  1. Go to the Extensions page (chrome://extensions, edge://extensions, brave://extensions ...)"
+  echo "  2. Turn on Developer mode, then click Load unpacked"
+  echo "  3. In the folder window press Cmd+Shift+G (Mac) or Ctrl+L (Linux), paste the path, press Enter, then Select"
   echo "Remove any older copy of the extension that was loaded from a different folder."
   exit 0
 fi

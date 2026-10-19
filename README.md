@@ -6,7 +6,7 @@ A browser extension that sends your current UTC Canvas grades to our Discord cha
 
 ## ⬇️ Download
 
-**[Download Canvas-Grades-Extension.zip](https://github.com/Eipckz/canvas-grade-discord/releases/latest/download/Canvas-Grades-Extension.zip)**
+**[Download Canvas-Grades-Extension.zip](https://github.com/Eipckz/canvas-grade-discord/releases/latest/download/Canvas-Grades-Extension.zip)** (use this link, not the "Code" or "Source code" downloads, which are for developers)
 
 Then follow the steps for your browser below. It takes about 2 minutes.
 
@@ -41,6 +41,10 @@ Don't use the Linux terminal or the installer files on a Chromebook. Chrome can'
 3. In Chrome, go to `chrome://extensions`, turn on **Developer mode** (top-right), and click **Load unpacked**.
 4. Choose **Downloads → Canvas-Grades-Extension** (the folder that has `manifest.json` in it), then click **Open**.
 5. Pin it from the puzzle-piece icon.
+
+**If Chrome says "Manifest file is missing or unreadable"** (or anything else about the manifest), it was pointed at the wrong folder:
+- Make sure you downloaded **Canvas-Grades-Extension.zip**, not "Source code (zip)" from the release page.
+- When you click **Load unpacked**, open folders until you can see **manifest.json** listed inside, together with files like background.js and popup.html. Select *that* folder and click **Open**. If you only see another folder, go one level deeper.
 
 **If the Developer mode switch is missing or greyed out**, or the page says *"managed by your organization"*, the Chromebook is school- or work-managed and its admin blocks extensions like this. It won't work on that Chromebook. Use a personal Chromebook or computer instead.
 

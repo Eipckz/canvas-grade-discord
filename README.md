@@ -30,7 +30,23 @@ Then follow the steps for your browser below. It takes about 2 minutes.
 5. In the folder window that opens, **click the address bar at the top, press Ctrl+V, press Enter**, then click **Select Folder**.
 6. Done! "Canvas Grades to Discord" appears in your extensions list. Click the puzzle-piece icon in the toolbar and **pin** it so it's easy to find.
 
-### On Mac or Linux (updates itself)
+### On a Chromebook
+
+Don't use the Linux terminal or the installer files on a Chromebook. Chrome can't load extensions from there.
+
+1. **Download** the zip with the link above. It saves to your **Downloads** folder.
+2. **Unzip it into a real folder.** Open the **Files** app, go to **Downloads**, right-click the zip (two-finger tap), and choose **Extract all**. A folder named **Canvas-Grades-Extension** appears in Downloads.
+   - No "Extract all" option? Double-click the zip to open it, press **Ctrl+A** then **Ctrl+C**, go back to **Downloads**, create a new folder named `Canvas-Grades-Extension` (Ctrl+E), open it, and press **Ctrl+V**.
+   - Don't load the extension from inside the opened zip. That zip "drive" disappears when the Chromebook restarts, and the extension stops working.
+3. In Chrome, go to `chrome://extensions`, turn on **Developer mode** (top-right), and click **Load unpacked**.
+4. Choose **Downloads → Canvas-Grades-Extension** (the folder that has `manifest.json` in it), then click **Open**.
+5. Pin it from the puzzle-piece icon.
+
+**If the Developer mode switch is missing or greyed out**, or the page says *"managed by your organization"*, the Chromebook is school- or work-managed and its admin blocks extensions like this. It won't work on that Chromebook. Use a personal Chromebook or computer instead.
+
+Chromebooks don't update this extension automatically. When the dashboard says a new version is available, download the zip again, replace the files in the **Canvas-Grades-Extension** folder, and click the reload ↻ icon on the extension in `chrome://extensions`.
+
+### On Mac or Linux (not Chromebook; updates itself)
 
 1. **Unzip it:** double-click **Canvas-Grades-Extension.zip** in Downloads.
 2. **Run the installer:** open **Terminal**, type `sh ` (with a space after it), drag **update.sh** from the unzipped folder into the Terminal window, then press **Enter**. On a Mac, the install folder's location is copied for you.
